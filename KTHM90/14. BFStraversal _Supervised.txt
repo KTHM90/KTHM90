@@ -1,0 +1,55 @@
+Q.1
+
+
+
+from collections import deque
+
+graph = {
+    'V1': ['V2', 'V3', 'V5'],
+    'V2': ['V1', 'V4'],
+    'V3': ['V1', 'V6'],
+    'V4': ['V2', 'V5'],
+    'V5': ['V1', 'V4', 'V6'],
+    'V6': ['V3', 'V5']
+}
+
+def bfs(start):
+    visited = set()
+    queue = deque([start])
+    visited.add(start)
+
+    while queue:
+        node = queue.popleft()
+        print(node, end=" ")
+
+        for neighbor in graph[node]:
+            if neighbor not in visited:
+                visited.add(neighbor)
+                queue.append(neighbor)
+
+print("BFS Traversal:")
+bfs('V1')
+
+---------------------------------------------------------
+Q.2
+# Compare Supervised and Unsupervised Learning
+
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.cluster import KMeans
+
+# Supervised Learning
+X = [[1], [2], [3], [4]]
+y = [0, 0, 1, 1]
+
+model = KNeighborsClassifier(n_neighbors=1)
+model.fit(X, y)
+
+print("Supervised Prediction:", model.predict([[4]]))
+
+# Unsupervised Learning
+data = [[1], [2], [8], [9]]
+
+kmeans = KMeans(n_clusters=2, random_state=0, n_init=10)
+kmeans.fit(data)
+
+print("Unsupervised Clusters:", kmeans.labels_)

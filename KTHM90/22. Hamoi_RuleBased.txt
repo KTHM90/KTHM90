@@ -1,0 +1,45 @@
+Q.1
+def hanoi(n, source, auxiliary, destination):
+    if n == 1:
+        print("Move disk 1 from", source, "to", destination)
+        return
+
+    hanoi(n - 1, source, destination, auxiliary)
+    print("Move disk", n, "from", source, "to", destination)
+    hanoi(n - 1, auxiliary, source, destination)
+
+
+n = int(input("Enter number of disks: "))
+hanoi(n, 'A', 'B', 'C')
+
+------------------
+Q.2
+# Rule-Based Expert System
+
+def expert_system():
+    print("=== Simple Expert System ===")
+    print("Decision: Choose an activity\n")
+
+    weather = input("Is the weather sunny? (yes/no): ").lower()
+    budget = input("Do you have enough money? (yes/no): ").lower()
+    time = input("Do you have free time? (yes/no): ").lower()
+
+    # Knowledge Base: IF-THEN rules
+    if weather == "yes" and budget == "yes" and time == "yes":
+        print("\nRecommendation: Go for an outing.")
+
+    elif weather == "yes" and time == "yes":
+        print("\nRecommendation: Go for a walk.")
+
+    elif budget == "yes" and time == "yes":
+        print("\nRecommendation: Watch a movie.")
+
+    elif time == "no":
+        print("\nRecommendation: Complete your work first.")
+
+    else:
+        print("\nRecommendation: Stay at home and relax.")
+
+
+# Run the expert system
+expert_system()

@@ -1,0 +1,53 @@
+Q.1
+
+graph = {
+    1: [2, 3],
+    2: [4, 5],
+    3: [6],
+    4: [],
+    5: [],
+    6: []
+}
+
+def dls(node, limit, depth=0):
+    print(node, end=" ")
+
+    if depth == limit:
+        return
+
+    for child in graph[node]:
+        dls(child, limit, depth + 1)
+
+print("DLS Traversal:")
+dls(1, 2)
+
+----------------------------------------------------
+Q.2
+# Backward Chaining Inference Mechanism
+
+facts = {"fever", "cough"}
+
+rules = {
+    "flu": [["fever", "cough"]],
+    "take_rest": [["flu"]],
+    "recover": [["take_rest"]]
+}
+
+def backward_chaining(goal):
+    if goal in facts:
+        return True
+
+    if goal in rules:
+        for conditions in rules[goal]:
+            if all(backward_chaining(c) for c in conditions):
+                print("Goal proved:", goal)
+                return True
+
+    return False
+
+goal = input("Enter goal: ").lower()
+
+if backward_chaining(goal):
+    print(goal, "is TRUE")
+else:
+    print(goal, "cannot be proved")

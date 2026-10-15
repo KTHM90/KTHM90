@@ -1,0 +1,57 @@
+Q.1
+# Compare Minimax and Alpha-Beta Pruning
+
+tree = [[3, 5], [6, 9], [1, 2], [0, -1]]
+
+def minimax():
+    values = [max(pair) for pair in tree]
+    return min(values)
+
+def alpha_beta():
+    alpha = float('-inf')
+    beta = float('inf')
+    best = float('inf')
+
+    for pair in tree:
+        value = max(pair)
+        best = min(best, value)
+        beta = min(beta, best)
+
+        if beta <= alpha:
+            break
+
+    return best
+
+print("Minimax Result:", minimax())
+print("Alpha-Beta Result:", alpha_beta())
+
+---------------------------------------------------
+Q.2
+# Backward Chaining Inference Mechanism
+
+facts = {"fever", "cough"}
+
+rules = {
+    "flu": [["fever", "cough"]],
+    "take_rest": [["flu"]],
+    "recover": [["take_rest"]]
+}
+
+def backward_chaining(goal):
+    if goal in facts:
+        return True
+
+    if goal in rules:
+        for conditions in rules[goal]:
+            if all(backward_chaining(c) for c in conditions):
+                print("Goal proved:", goal)
+                return True
+
+    return False
+
+goal = input("Enter goal: ").lower()
+
+if backward_chaining(goal):
+    print(goal, "is TRUE")
+else:
+    print(goal, "cannot be proved")

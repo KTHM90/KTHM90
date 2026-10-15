@@ -1,0 +1,56 @@
+Q.1
+
+from collections import deque
+
+graph = {
+    'A': ['B', 'C'],
+    'B': ['A', 'D'],
+    'C': ['A', 'E'],
+    'D': ['B', 'E'],
+    'E': ['C', 'D']
+}
+
+def bfs_path(start, goal):
+    queue = deque([(start, [start])])
+    visited = {start}
+
+    while queue:
+        node, path = queue.popleft()
+
+        if node == goal:
+            return path
+
+        for neighbor in graph[node]:
+            if neighbor not in visited:
+                visited.add(neighbor)
+                queue.append((neighbor, path + [neighbor]))
+
+    return None
+
+print("Path:", bfs_path('A', 'E'))
+
+
+------------------------------------------------------
+Q.2
+
+# Predicate Logic using predicates, variables and quantifiers
+
+
+students = ["Amit", "Riya", "Rahul"]
+marks = {"Amit": 75, "Riya": 85, "Rahul": 40}
+
+def passed(student):
+    return marks[student] >= 50
+
+all_passed = all(passed(s) for s in students)
+
+some_passed = any(passed(s) for s in students)
+
+print("Students:", students)
+
+for s in students:
+    print(s, "passed:", passed(s))
+
+print("For all students passed:", all_passed)
+print("At least one student passed:", some_passed)
+

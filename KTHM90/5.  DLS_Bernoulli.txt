@@ -1,0 +1,49 @@
+Q.1
+# Depth Limited Search
+
+graph = {
+    'A': ['B', 'C'],
+    'B': ['D', 'E'],
+    'C': ['F'],
+    'D': [],
+    'E': [],
+    'F': []
+}
+
+def dls(node, limit, depth=0):
+    print(node, end=" ")
+
+    if depth == limit:
+        return
+
+    for child in graph[node]:
+        dls(child, limit, depth + 1)
+
+print("DLS Traversal:")
+dls('A', 2)
+
+
+--------------------------------------------------
+Q.2
+from sklearn.datasets import make_classification
+from sklearn.naive_bayes import BernoulliNB
+
+# Create dataset
+X, y = make_classification(
+    n_samples=300,
+    n_features=2,
+    n_informative=2,
+    n_redundant=0,
+    n_classes=2,
+    random_state=42
+)
+
+# Train the classifier
+model = BernoulliNB()
+model.fit(X, y)
+
+# Test data
+test = [[0, 0], [0, 1], [1, 0], [1, 1]]
+
+# Prediction
+print("Predictions:", model.predict(test))

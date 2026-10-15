@@ -1,0 +1,76 @@
+Q.1
+from collections import deque
+start = ("Door", "Corner", False)
+queue = deque([(start, [])])
+visited = set()
+
+while queue:
+    (monkey, box, banana), path = queue.popleft()
+
+    if banana:
+        print("Monkey got the banana!")
+        print(path)
+        break
+
+    if (monkey, box, banana) in visited:
+        continue
+    visited.add((monkey, box, banana))
+
+    if monkey != "Middle":
+        queue.append((("Middle", box, False),
+                      path + ["Monkey moves to Middle"]))
+
+    elif box != "Middle":
+        queue.append((("Middle", "Middle", False),
+                      path + ["Monkey pushes box"]))
+
+    else:
+        queue.append((("Middle", "Middle", True),
+                      path + ["Monkey climbs box and gets banana"]))
+
+--------------------------------------------------------
+Q.2
+# Map Coloring Problem using CSP
+
+colors = ["Red", "Green", "Blue"]
+
+regions = ["A", "B", "C", "D"]
+
+neighbors = {
+    "A": ["B", "C"],
+    "B": ["A", "C", "D"],
+    "C": ["A", "B", "D"],
+    "D": ["B", "C"]
+}
+
+assignment = {}
+
+def is_valid(region, color):
+    for neighbor in neighbors[region]:
+        if neighbor in assignment and assignment[neighbor] == color:
+            return False
+    return True
+
+def solve():
+    if len(assignment) == len(regions):
+        return True
+
+    region = next(r for r in regions if r not in assignment)
+
+    for color in colors:
+        if is_valid(region, color):
+            assignment[region] = color
+
+            if solve():
+                return True
+
+            del assignment[region]
+
+    return False
+
+if solve():
+    print("Map Coloring Solution:")
+    for region, color in assignment.items():
+        print(region, ":", color)
+else:
+    print("No solution exists")

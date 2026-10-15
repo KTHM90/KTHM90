@@ -1,0 +1,81 @@
+Q.1
+# Each node stores its type and (child, edge-cost) pairs.
+
+
+graph = {
+    'A': ('OR', [('B', 2), ('C', 3)]),
+    'B': ('AND', [('D', 1), ('E', 4)]),
+    'C': ('OR', [('F', 2), ('G', 5)]),
+    'D': ('OR', [('H', 2), ('I', 3)]),
+    'E': ('OR', [('J', 1)]),
+    'F': ('OR', []),
+    'G': ('OR', []),
+    'H': ('OR', []),
+    'I': ('OR', []),
+    'J': ('OR', [])
+}
+
+def ao_star(node):
+    kind, children = graph[node]
+
+    if not children:
+        return 0, [node]
+
+    options = []
+
+    for child, edge_cost in children:
+        cost, path = ao_star(child)
+        options.append((edge_cost + cost, child, path))
+
+    if kind == 'OR':
+        cost, child, path = min(options, key=lambda x: x[0])
+        return cost, [node] + path
+
+    else:
+        total = sum(item[0] for item in options)
+        path = [node]
+
+        for _, child, child_path in options:
+            path.extend(child_path)
+
+        return total, path
+
+cost, solution = ao_star('A')
+
+print("Minimum Cost:", cost)
+print("Selected Solution Nodes:", solution)
+
+
+-------------------------------------------------
+Q.2
+# Forward Chaining Inference Mechanism
+
+
+facts = {"fever", "cough"}
+
+rules = [
+    ({"fever", "cough"}, "flu"),
+    ({"flu"}, "take_rest"),
+    ({"flu", "headache"}, "consult_doctor"),
+    ({"take_rest"}, "recover")
+]
+
+def forward_chaining(facts, rules):
+    changed = True
+
+    while changed:
+        changed = False
+
+        for condition, conclusion in rules:
+            if condition.issubset(facts) and conclusion not in facts:
+                facts.add(conclusion)
+                print("New Fact Derived:", conclusion)
+                changed = True
+
+    return facts
+
+print("Initial Facts:", facts)
+
+result = forward_chaining(facts, rules)
+
+print("\nFinal Facts:", result)

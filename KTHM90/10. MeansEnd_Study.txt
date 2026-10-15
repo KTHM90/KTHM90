@@ -1,0 +1,53 @@
+Q.1
+# Means-End Analysis
+
+current = {"has_money": False, "has_ticket": False}
+goal = {"has_money": True, "has_ticket": True}
+
+def solve():
+    if not current["has_money"]:
+        print("Action: Earn money")
+        current["has_money"] = True
+
+    if not current["has_ticket"]:
+        print("Action: Buy ticket")
+        current["has_ticket"] = True
+
+    if current == goal:
+        print("Goal Achieved!")
+
+solve()
+
+
+-------------------------------------------
+Q.2
+import pandas as pd
+from sklearn.ensemble import RandomForestClassifier
+
+# Create dataset
+dataset = {
+    'Study_Hours': [2, 3, 4, 5, 6, 7, 1, 2, 5, 8],
+    'Attendance': [60, 65, 70, 75, 80, 85, 55, 62, 78, 90],
+    'Assignment_Score': [55, 60, 65, 70, 75, 80, 50, 58, 72, 85],
+    'Result': ['Fail', 'Fail', 'Pass', 'Pass', 'Pass',
+               'Pass', 'Fail', 'Fail', 'Pass', 'Pass']
+}
+
+df = pd.DataFrame(dataset)
+
+# Features and target
+X = df[['Study_Hours', 'Attendance', 'Assignment_Score']]
+y = df['Result']
+
+# Train the model
+model = RandomForestClassifier(n_estimators=100, random_state=42)
+model.fit(X, y)
+
+# Predict result for a new student
+new_student = pd.DataFrame(
+    [[4, 70, 65]],
+    columns=['Study_Hours', 'Attendance', 'Assignment_Score']
+)
+
+prediction = model.predict(new_student)
+print("Predicted Result:", prediction[0])

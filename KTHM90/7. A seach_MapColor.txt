@@ -1,0 +1,83 @@
+Q.1
+
+import heapq
+
+graph = {
+    'V1': [('V2', 2), ('V3', 4)],
+    'V2': [('V1', 2), ('V4', 3)],
+    'V3': [('V1', 4), ('V4', 1), ('V5', 5)],
+    'V4': [('V2', 3), ('V3', 1), ('V6', 2)],
+    'V5': [('V3', 5), ('V6', 1)],
+    'V6': [('V4', 2), ('V5', 1)]
+}
+
+def astar(start, goal):
+    pq = [(0, start, [start])]
+    best = {start: 0}
+
+    while pq:
+        cost, node, path = heapq.heappop(pq)
+
+        if node == goal:
+            return path, cost
+
+        if cost != best[node]:
+            continue
+
+        for nxt, weight in graph[node]:
+            new_cost = cost + weight
+
+            if new_cost < best.get(nxt, float('inf')):
+                best[nxt] = new_cost
+                heapq.heappush(pq, (new_cost, nxt, path + [nxt]))
+
+    return None, float('inf')
+
+path, cost = astar('V1', 'V6')
+
+print("Path:", path)
+print("Cost:", cost)
+
+------------------------------------------------
+Q.2
+
+colors = ["Red", "Green", "Blue"]
+regions = ["A", "B", "C", "D", "E"]
+
+neighbors = {
+    "A": ["B", "E"],
+    "B": ["A", "C"],
+    "C": ["B", "D"],
+    "D": ["C", "E"],
+    "E": ["D", "A"]
+}
+
+assignment = {}
+
+def valid(region, color):
+    return all(assignment.get(n) != color for n in neighbors[region])
+
+def solve():
+    if len(assignment) == len(regions):
+        return True
+
+    region = next(r for r in regions if r not in assignment)
+
+    for color in colors:
+        if valid(region, color):
+            assignment[region] = color
+
+            if solve():
+                return True
+
+            del assignment[region]
+
+    return False
+
+if solve():
+    print("Map Coloring:")
+
+    for region in regions:
+        print(region, ":", assignment[region])
+else:
+    print("No solution")

@@ -1,0 +1,41 @@
+Q.1
+
+graph = {
+    'A': ['B', 'E', 'C'],
+    'B': ['A', 'D'],
+    'C': ['A', 'F'],
+    'D': ['B', 'E'],
+    'E': ['A', 'D', 'F'],
+    'F': ['E', 'C']
+}
+
+def dfs(node, visited):
+    visited.add(node)
+    print(node, end=" ")
+
+    for neighbor in graph[node]:
+        if neighbor not in visited:
+            dfs(neighbor, visited)
+
+dfs('A', set())
+
+
+------------------------------------------------------
+Q.2
+
+
+from sklearn.svm import SVC
+
+X = [[1, 2], [2, 3], [5, 5]]
+
+y = [0, 0, 1]
+
+model = SVC(kernel='rbf', gamma='scale')
+
+model.fit(X, y)
+
+X_test = [[4, 4]]
+
+prediction = model.predict(X_test)
+
+print("Predicted Class:", prediction)

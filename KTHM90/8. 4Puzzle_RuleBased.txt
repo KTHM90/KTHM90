@@ -1,0 +1,72 @@
+Q.1
+from heapq import heappush, heappop
+
+goal = (1, 2, 3, 0)
+
+def h(state):
+    return sum(state[i] != 0 and state[i] != goal[i]
+               for i in range(4))
+
+def solve(start):
+    pq = [(h(start), 0, start)]
+    visited = set()
+
+    while pq:
+        f, g, state = heappop(pq)
+
+        if state in visited:
+            continue
+        visited.add(state)
+
+        print(state[:2])
+        print(state[2:])
+        print()
+
+        if state == goal:
+            print("Goal reached!")
+            return
+
+        z = state.index(0)
+
+        for m in (z-2, z+2, z-1, z+1):
+            if 0 <= m < 4 and abs(z//2 - m//2) + abs(z%2 - m%2) == 1:
+                new = list(state)
+                new[z], new[m] = new[m], new[z]
+                new = tuple(new)
+
+                if new not in visited:
+                    heappush(pq, (g + 1 + h(new), g + 1, new))
+
+solve((1, 2, 0, 3))
+
+---------------------------------
+Q.2
+# Rule-Based Expert System
+
+def expert_system():
+    print("=== Simple Expert System ===")
+    print("Decision: Choose an activity\n")
+
+    weather = input("Is the weather sunny? (yes/no): ").lower()
+    budget = input("Do you have enough money? (yes/no): ").lower()
+    time = input("Do you have free time? (yes/no): ").lower()
+
+    # Knowledge Base: IF-THEN rules
+    if weather == "yes" and budget == "yes" and time == "yes":
+        print("\nRecommendation: Go for an outing.")
+
+    elif weather == "yes" and time == "yes":
+        print("\nRecommendation: Go for a walk.")
+
+    elif budget == "yes" and time == "yes":
+        print("\nRecommendation: Watch a movie.")
+
+    elif time == "no":
+        print("\nRecommendation: Complete your work first.")
+
+    else:
+        print("\nRecommendation: Stay at home and relax.")
+
+
+# Run the expert system
+expert_system()

@@ -1,0 +1,45 @@
+Q.1
+def f(x):
+    return -x**2 + 6*x
+
+x = 0
+step = 0.1
+
+while True:
+    current = f(x)
+    left = f(x - step)
+    right = f(x + step)
+
+    if left > current:
+        x -= step
+    elif right > current:
+        x += step
+    else:
+        break
+
+print("Maximum x:", round(x, 2))
+print("Maximum value:", round(f(x), 2))
+
+---------------------------------------------------------
+Q.2
+# Compare Supervised and Unsupervised Learning
+
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.cluster import KMeans
+
+# Supervised Learning
+X = [[1], [2], [3], [4]]
+y = [0, 0, 1, 1]
+
+model = KNeighborsClassifier(n_neighbors=1)
+model.fit(X, y)
+
+print("Supervised Prediction:", model.predict([[4]]))
+
+# Unsupervised Learning
+data = [[1], [2], [8], [9]]
+
+kmeans = KMeans(n_clusters=2, random_state=0, n_init=10)
+kmeans.fit(data)
+
+print("Unsupervised Clusters:", kmeans.labels_)

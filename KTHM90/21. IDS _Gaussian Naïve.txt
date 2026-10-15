@@ -1,0 +1,66 @@
+Q.1
+
+graph = {
+    'A': ['B', 'C'],
+    'B': ['D', 'E'],
+    'C': ['F'],
+    'D': [],
+    'E': [],
+    'F': []
+}
+
+def dls(node, goal, limit, path):
+    if node == goal:
+        return path
+
+    if limit == 0:
+        return None
+
+    for child in graph[node]:
+        result = dls(child, goal, limit - 1, path + [child])
+
+        if result:
+            return result
+
+    return None
+
+def ids(start, goal):
+    for limit in range(10):
+        print("Depth limit:", limit)
+        result = dls(start, goal, limit, [start])
+
+        if result:
+            return result
+
+    return None
+
+print("Path:", ids('A', 'F'))
+
+
+-----------------------------------------------
+Q.2
+
+
+
+from sklearn.naive_bayes import GaussianNB
+
+X = [
+    [1.0, 2.0],
+    [1.5, 1.8],
+    [2.0, 2.5],
+    [6.0, 7.0],
+    [6.5, 6.8],
+    [7.0, 7.5]
+]
+
+y = [0, 0, 0, 1, 1, 1]
+
+model = GaussianNB()
+
+model.fit(X, y)
+
+X_test = [[1.8, 2.2], [6.2, 7.1]]
+
+prediction = model.predict(X_test)
+
+print("Predicted Classes:", prediction)
